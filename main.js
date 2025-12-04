@@ -1,12 +1,10 @@
-// main.js (starter skeleton)
+// main.js
+import Game from './game.js';
 
-// TODO: Add OOP classes here in Iteration 1
-// class Card {}
-// class Shoe {}
-// class Hand {}
-// class Player {}
-// class Dealer {}
-// class Game {}
+document.addEventListener('DOMContentLoaded', () => {
+    const game = new Game();
+    game.init();
 
-// Temporary placeholder until Iteration 1
-console.log("Blackjack project initialized.");
+    // For debugging in console:
+    window._blackjackGame = game;
+});
