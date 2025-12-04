@@ -1,0 +1,74 @@
+iteration1_requirements.txt
+===========================
+
+Iteration 1 – Core OOP Model & Basic Dealing (No Full Game Logic Yet)
+
+Goal:
+-----
+Set up the object-oriented backbone of the game and prove that we can create a 6-deck shoe,
+deal initial cards to player and dealer, and display them in the browser (even if just as text).
+
+High-Level Requirements:
+------------------------
+1. The game must run in a browser using JavaScript (no backend).
+2. The code must be written in an object-oriented style using ES6 classes.
+3. There must be a representation of:
+   - A Card (rank + suit + value for blackjack)
+   - A Shoe (6 combined decks of 52 cards, shuffled)
+   - A Hand (collection of cards + ability to compute total)
+   - A Player and Dealer (each has a Hand)
+   - A Game controller object (coordinates the above)
+4. When the page loads, the game must:
+   - Create a 6-deck Shoe and shuffle it.
+   - Deal 2 cards to the Player.
+   - Deal 2 cards to the Dealer (both visible for now; hidden card can come later).
+5. The current state (Player hand, Dealer hand) must be rendered to the page in a simple way
+   (e.g., text in <div> elements).
+
+OOP Design Hints:
+-----------------
+- class Card
+  - Properties: rank (2–10, J, Q, K, A), suit (♠, ♥, ♦, ♣ or strings), value (2–10, 10, 11).
+  - Methods: toString() for display.
+
+- class Shoe
+  - Properties: cards (array of Card).
+  - Methods:
+    - constructor(numDecks = 6)
+    - buildDecks()  // pushes 6*52 cards into cards
+    - shuffle()
+    - drawCard()    // returns one card from the top of the shoe
+
+- class Hand
+  - Properties: cards (array of Card).
+  - Methods:
+    - addCard(card)
+    - getTotal()    // basic total for now; Aces can just be 11 in this iteration
+    - toString()
+
+- class Participant (abstract/base)
+  - Properties: name, hand (Hand).
+
+- class Player extends Participant
+- class Dealer extends Participant
+
+- class Game
+  - Properties: shoe (Shoe), player (Player), dealer (Dealer).
+  - Methods:
+    - startNewRoundSkeleton() // for now, just deal 2 cards to each
+
+User-Facing Behavior:
+---------------------
+- When the player opens the page:
+  - They see:
+    - “Player Hand: [card list] – Total: X”
+    - “Dealer Hand: [card list] – Total: Y”
+  - No buttons or game actions required yet.
+
+Acceptance Criteria:
+--------------------
+- Card, Shoe, Hand, Player, Dealer, Game are implemented as ES6 classes.
+- Shoe contains 6*52 = 312 cards before dealing.
+- Shuffling is performed at least once at the start.
+- Two cards are dealt to player and dealer each, drawn from Shoe.
+- Hands and totals are displayed in the browser (not just console).

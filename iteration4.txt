@@ -1,0 +1,53 @@
+iteration4_requirements.txt
+===========================
+
+Iteration 4 – UI Polish, Game Feedback, and Code Cleanup
+
+Goal:
+-----
+Make the game nicer to use and easier to maintain: improve visual layout,
+add feedback, and tidy up the code structure.
+
+High-Level Requirements:
+------------------------
+1. Visual improvements:
+   - Arrange the table layout with clear sections:
+     - Dealer area (name, cards, total).
+     - Player area (name, cards, total, balance, bet).
+   - Use basic styling (CSS) for:
+     - Cards (simple boxes or Unicode suits).
+     - Buttons and status messages.
+2. Clear game feedback:
+   - Visually highlight wins/losses/pushes (e.g., colored text or small animation).
+   - Indicate current phase: "Place your bet", "Your turn", "Dealer's turn", "Round over".
+   - Show error messages for invalid bets (e.g., "Bet must be > 0 and <= balance").
+3. Code cleanup & separation of concerns:
+   - Keep DOM-manipulation logic in a UI/controller section (or a UI helper class)
+     instead of scattering it across all classes.
+   - Ensure Game class coordinates actions and exposes clear methods like:
+     - init()
+     - onBetPlaced(amount)
+     - onPlayerHit()
+     - onPlayerStand()
+   - Avoid direct DOM access from Card/Hand/Player classes; they should focus on data and logic.
+4. Basic robustness:
+   - Prevent clicking Hit/Stand buttons during dealer turn or when round is not active.
+   - Handle edge cases gracefully (e.g., double-clicking buttons, starting new round mid-round).
+   - Console should be relatively free of errors and unused logs.
+
+Optional Stretch Goals (only if time permits):
+----------------------------------------------
+- Add a simple "statistics" area:
+  - Number of rounds played, wins, losses, pushes.
+- Add keyboard shortcuts for Hit (H), Stand (S), New Round (N).
+- Add a simple "settings" section where the starting balance can be changed.
+
+Acceptance Criteria:
+--------------------
+- The game looks organized and readable on screen (not just raw text).
+- Player always knows whose turn it is and what to do next.
+- No obvious race conditions or invalid-button-state issues in normal play.
+- Code is organized into:
+  - Core model classes (Card, Shoe, Hand, Player, Dealer),
+  - Game controller logic,
+  - UI/DOM update functions (or a dedicated UI helper).

@@ -1,0 +1,72 @@
+iteration3_requirements.txt
+===========================
+
+Iteration 3 – Betting, Balance, Multi-Round Play & Shoe Management
+
+Goal:
+-----
+Turn the single-hand game into a simple session with betting, player balance,
+and multi-round play, while managing the 6-deck shoe (reshuffling when low).
+
+High-Level Requirements:
+------------------------
+1. Player balance and betting:
+   - Player starts with a fixed balance (e.g., 1000 chips).
+   - Before each round starts, player can set a bet amount.
+   - The bet must be deducted/locked when the round starts.
+2. Payout rules (simple version):
+   - Normal win: player gains bet amount (net +bet).
+   - Loss: player loses bet amount (net -bet).
+   - Push: bet is returned (no net change).
+   - (Optional if time allows) Blackjack (natural 21 with first two cards):
+     - Payout 3:2 (e.g., bet 10 → win 15).
+3. Persist balance between rounds until page refresh:
+   - Balance updates after each round based on the outcome.
+   - Block new round if balance <= 0 or if bet > balance.
+4. Shoe management:
+   - The Shoe is created once at the start with 6 decks.
+   - Cards are drawn from the shoe across rounds.
+   - When the Shoe runs low on cards (e.g., less than 52 cards left),
+     automatically rebuild and reshuffle a new 6-deck shoe and notify the player
+     (simple text like "Shoe reshuffled").
+5. Game flow:
+   - Player sets bet.
+   - Player clicks "Deal" / "New Round" to start.
+   - Round is played as in Iteration 2.
+   - Balance updates and new round can begin.
+
+OOP Design Changes/Extensions:
+------------------------------
+- class Player extends Participant
+  - Properties:
+    - balance
+    - currentBet
+  - Methods:
+    - placeBet(amount)        // sets currentBet if valid
+    - winBet(multiplier = 1)  // adjust balance
+    - loseBet()
+    - pushBet()
+
+- class Game
+  - Properties:
+    - shoe (Shoe) reused between rounds
+    - state (e.g., "BETTING", "PLAYER_TURN", "DEALER_TURN", "ROUND_OVER")
+  - Methods:
+    - setBetFromUI()
+    - applyOutcomeToBalance()
+    - checkAndReshuffleShoeIfNeeded()
+
+UI Requirements:
+----------------
+- Display player balance prominently.
+- Provide an input (text/number) for the bet amount.
+- Disable "Deal" if bet is invalid (e.g., <=0, >balance).
+- Display last round result + balance change (e.g., "You won 10 chips!").
+
+Acceptance Criteria:
+--------------------
+- Player can play multiple rounds without reloading the page.
+- Balance updates correctly after each round.
+- Game prevents starting a round when the bet is invalid or player has no funds.
+- Shoe is recreated and reshuffled when it runs low, and a message is shown.
+- 6-deck behavior is preserved across rounds (i.e., not recreating every round).

@@ -1,0 +1,69 @@
+iteration2_requirements.txt
+===========================
+
+Iteration 2 – Full Single-Round Blackjack Logic (Hit/Stand, Dealer Turn, Round Outcome)
+
+Goal:
+-----
+Implement the core blackjack rules for a single hand: hit/stand, dealer drawing rules,
+and determining the winner of a round.
+
+High-Level Requirements:
+------------------------
+1. The player must be able to control actions via buttons:
+   - "Hit" – player draws a card.
+   - "Stand" – player ends their turn.
+2. Implement blackjack total rules with Aces:
+   - Ace counts as 11 if it does not cause bust; otherwise counts as 1.
+   - Hand.getTotal() must compute the best possible total <= 21 if possible.
+3. Player turn:
+   - Game starts with 2 cards each (from Iteration 1).
+   - While player’s turn is active:
+     - "Hit" adds a card to the player hand and updates the display.
+     - If player total > 21, player busts immediately and the round ends.
+4. Dealer turn:
+   - Dealer has one face-up and one face-down card.
+   - After player stands (and is not bust):
+     - Reveal dealer’s hidden card.
+     - Dealer draws cards until total >= 17 (typical rule: hit on <17, stand on 17+).
+5. Determine round result:
+   - If player busts: dealer wins.
+   - If dealer busts: player wins.
+   - Otherwise, compare totals:
+     - Higher total wins.
+     - Equal totals = push (tie).
+6. Display outcome on the page:
+   - Show a message like "Player wins!", "Dealer wins!", or "Push."
+   - Show final totals for player and dealer.
+
+OOP Design Changes/Extensions:
+------------------------------
+- class Hand
+  - Update getTotal() to handle Aces as 1 or 11.
+- class Dealer
+  - Add method playTurn(shoe) that implements the “hit until >=17” rule.
+- class Game
+  - Add methods:
+    - startNewRound()           // deal cards, reset state, set current turn to Player
+    - playerHit()
+    - playerStand()
+    - checkForRoundEnd()        // determines if bust or compare totals
+    - endRound(outcome)         // sets a gameResult state and updates UI
+
+UI Requirements:
+----------------
+- Buttons:
+  - "New Round" (or "Deal")
+  - "Hit"
+  - "Stand"
+- "Hit" and "Stand" buttons should only be enabled during the player’s turn.
+- After round ends, "Hit" and "Stand" are disabled until the next round starts.
+- Dealer’s second card should appear as hidden (e.g., "??") during player’s turn and then revealed.
+
+Acceptance Criteria:
+--------------------
+- Player can play a complete hand from initial deal through outcome with Hit/Stand.
+- Dealer follows the rule “draw until total >= 17”.
+- Aces are correctly counted as 1 or 11 to give the best valid total.
+- Round outcome is clearly visible (who won, with what totals).
+- After a round, player can start a new round without page reload.
